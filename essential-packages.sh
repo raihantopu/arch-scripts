@@ -5,32 +5,31 @@ sudo pacman -Syu
 
 # Essential packages
 PACKAGES=(
-    # Network management
+    base
+    base-devel
     networkmanager
     wpa_supplicant
     iwd
     bluez
     bluez-utils
     blueman
+    nano
+    gedit
+    dbeaver
+    openconnect
     
-    # Browsers
     firefox
-    brave-bin
     
-    # Java Development Kit
     jdk21-openjdk
     jdk8-openjdk
     
-    # Media Player
     vlc
     
-    # Torrent Client
     transmission-gtk
     
-    # Backups
     deja-dup
     
-    # Utilities
+    xterm
     neofetch
     curl
     wget
