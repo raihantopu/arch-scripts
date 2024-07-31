@@ -5,8 +5,6 @@ sudo pacman -Syu
 
 # Essential packages
 PACKAGES=(
-    base
-    base-devel
     networkmanager
     wpa_supplicant
     iwd
@@ -42,5 +40,9 @@ PACKAGES=(
 for PACKAGE in "${PACKAGES[@]}"; do
     sudo pacman -S --noconfirm $PACKAGE
 done
+
+systemctl enable NetworkManager
+systemctl enable bluetooth.service
+
 
 echo "Essential packages installed successfully."

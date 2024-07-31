@@ -4,7 +4,7 @@
 chsh -s $(which bash) $(whoami)
 
 # Remove Powerlevel10k theme
-rm -rf ~/powerlevel10k
+rm -rf /opt/powerlevel10k
 
 # Remove Meslo Nerd Font
 rm -f ~/.local/share/fonts/MesloLGS\ NF\ Regular.ttf

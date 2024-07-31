@@ -8,8 +8,8 @@ sudo pacman -S --noconfirm zsh fzf bat xclip git curl
 chsh -s $(which zsh) $(whoami)
 
 # Install Powerlevel10k theme
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+sudo git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /opt/powerlevel10k
+echo 'source /opt/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
 
 # Install Meslo Nerd Font
 mkdir -p ~/.local/share/fonts
