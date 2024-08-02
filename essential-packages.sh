@@ -14,19 +14,12 @@ PACKAGES=(
     nano
     gedit
     dbeaver
-    openconnect
-    
     firefox
-    
     jdk21-openjdk
     jdk8-openjdk
-    
     vlc
-    
     transmission-gtk
-    
     deja-dup
-    
     xterm
     neofetch
     curl
