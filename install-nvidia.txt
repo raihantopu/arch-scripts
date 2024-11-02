@@ -1,0 +1,5 @@
+1. first install xorg-server, xorg-xrander
+
+2. install nvidia, nvidia-utils, nvidia-settings
+
+3. config by the arch wiki (use only nvidia graphics card)
