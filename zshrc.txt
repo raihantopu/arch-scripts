@@ -14,6 +14,7 @@ bindkey -e
 # Bind HOME and END keys to move to the beginning and end of the line
 bindkey '^[[H' beginning-of-line  # HOME key
 bindkey '^[[F' end-of-line        # END key
+bindkey '^[[3~' delete-char   # DELETE key
 
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
