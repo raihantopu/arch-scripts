@@ -8,38 +8,44 @@ sudo pacman -S --noconfirm zsh fzf bat xclip git curl
 chsh -s $(which zsh) $(whoami)
 
 # Install Powerlevel10k theme
-sudo git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /opt/powerlevel10k
-echo 'source /opt/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
+if [ ! -d ~/powerlevel10k ]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+fi
+
+# Ensure .zshrc exists
+touch ~/.zshrc
+
+# Add Powerlevel10k theme to .zshrc if not already present
+grep -qxF 'source ~/powerlevel10k/powerlevel10k.zsh-theme' ~/.zshrc || echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
 
 # Install Meslo Nerd Font
 mkdir -p ~/.local/share/fonts
 cd ~/.local/share/fonts
-curl -fLo "MesloLGS NF Regular.ttf" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
-curl -fLo "MesloLGS NF Bold.ttf" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
-curl -fLo "MesloLGS NF Italic.ttf" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
-curl -fLo "MesloLGS NF Bold Italic.ttf" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+
+fonts=(
+  "MesloLGS NF Regular.ttf|https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf"
+  "MesloLGS NF Bold.ttf|https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf"
+  "MesloLGS NF Italic.ttf|https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf"
+  "MesloLGS NF Bold Italic.ttf|https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf"
+)
+
+for entry in "${fonts[@]}"; do
+  IFS="|" read -r name url <<< "$entry"
+  [ ! -f "$name" ] && curl -fLo "$name" "$url"
+done
 
 fc-cache -fv
 
-# Install zsh plugins: zsh-autosuggestions and zsh-completions
+# Install zsh plugins
+mkdir -p ~/.zsh
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-completions ~/.zsh/zsh-completions
 
-# Add plugins and source them in .zshrc
-echo 'source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh' >>~/.zshrc
-echo 'source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh' >>~/.zshrc
+# Add plugin sources to .zshrc if not already present
+grep -qxF 'source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh' ~/.zshrc || echo 'source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh' >> ~/.zshrc
+grep -qxF 'fpath+=~/.zsh/zsh-completions' ~/.zshrc || echo 'fpath+=~/.zsh/zsh-completions' >> ~/.zshrc
 
-# Add alias for fzf in preview mode
-echo 'alias open="fzf --preview \"bat --color=always {}\" --bind \"ctrl-c:execute-silent(bat {} | xclip -selection clipboard)\""' >> ~/.zshrc
+# Optional alias for opening files
+grep -qxF 'alias open="xdg-open"' ~/.zshrc || echo 'alias open="xdg-open"' >> ~/.zshrc
 
-# Install fzf if it's not already installed
-if [[ -f /usr/share/fzf/shell/completion.zsh ]]; then
-    /usr/share/fzf/shell/completion.zsh --completion --key-bindings --no-update-rc
-fi
-
-if [[ -f /usr/share/fzf/shell/key-bindings.zsh ]]; then
-    /usr/share/fzf/shell/key-bindings.zsh --completion --key-bindings --no-update-rc
-fi
-
-
-echo "Installation and configuration completed. Please restart your terminal and RUN 'source ~/.zshrc'"
+echo "✅ Zsh, Powerlevel10k, fzf, and bat installed and configured."
