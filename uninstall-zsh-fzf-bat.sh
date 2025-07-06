@@ -4,38 +4,31 @@
 chsh -s $(which bash) $(whoami)
 
 # Remove Powerlevel10k theme
-rm -rf /opt/powerlevel10k
+rm -rf ~/powerlevel10k
 
-# Remove Meslo Nerd Font
-rm -f ~/.local/share/fonts/MesloLGS\ NF\ Regular.ttf
-rm -f ~/.local/share/fonts/MesloLGS\ NF\ Bold.ttf
-rm -f ~/.local/share/fonts/MesloLGS\ NF\ Italic.ttf
-rm -f ~/.local/share/fonts/MesloLGS\ NF\ Bold\ Italic.ttf
-
+# Remove Meslo Nerd Fonts
+rm -f ~/.local/share/fonts/MesloLGS\ NF*.ttf
 fc-cache -fv
 
 # Remove zsh plugins
 rm -rf ~/.zsh/zsh-autosuggestions
 rm -rf ~/.zsh/zsh-completions
 
-# Remove configurations from .zshrc
-sed -i '/powerlevel10k.zsh-theme/d' ~/.zshrc
-sed -i '/zsh-autosuggestions.zsh/d' ~/.zshrc
-sed -i '/zsh-completions.plugin.zsh/d' ~/.zshrc
-sed -i '/alias open=/d' ~/.zshrc
+# Clean zshrc entries if file exists
+if [ -f ~/.zshrc ]; then
+  sed -i '/powerlevel10k.zsh-theme/d' ~/.zshrc
+  sed -i '/zsh-autosuggestions/d' ~/.zshrc
+  sed -i '/zsh-completions/d' ~/.zshrc
+  sed -i '/alias open=/d' ~/.zshrc
+fi
 
-#Clear all cache
-rm -rf ~/.cache/p10k*
+# Optionally remove fzf, bat, and zsh
+sudo pacman -Rns --noconfirm fzf bat zsh
 
-# Optionally remove fzf if it was installed only for zsh
-sudo pacman -Rns --noconfirm fzf bat
-rm -rf ~/.fzf
-rm -rf ~/.bat
+# Cleanup home directory configs
+rm -rf ~/.zsh ~/.fzf ~/.bat
 
-# Remove zsh
-sudo pacman -Rns --noconfirm zsh
-rm -rf ~/.zsh
-rm -rf ~/.zshrc
+# Optional: remove .zshrc if created solely for this setup
+# rm -f ~/.zshrc
 
-# Print completion message
-echo "Uninstallation and configuration cleanup completed. Please restart your terminal."
+echo "✅ Zsh, fzf, bat uninstalled and configuration cleaned."
